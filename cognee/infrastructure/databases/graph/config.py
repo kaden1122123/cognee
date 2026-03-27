@@ -48,6 +48,7 @@ class GraphConfig(BaseSettings):
     graph_model: object = KnowledgeGraph
     graph_topology: object = KnowledgeGraph
     graph_dataset_database_handler: str = "kuzu"
+    graph_database_subprocess_enabled: bool = False
     model_config = SettingsConfigDict(env_file=".env", extra="allow", populate_by_name=True)
 
     # Model validator updates graph_filename and path dynamically after class creation based on current database provider
@@ -99,6 +100,7 @@ class GraphConfig(BaseSettings):
             "graph_topology": self.graph_topology,
             "model_config": self.model_config,
             "graph_dataset_database_handler": self.graph_dataset_database_handler,
+            "graph_database_subprocess_enabled": self.graph_database_subprocess_enabled,
         }
 
     def to_hashable_dict(self) -> dict:
@@ -124,6 +126,7 @@ class GraphConfig(BaseSettings):
             "graph_database_key": self.graph_database_key,
             "graph_file_path": self.graph_file_path,
             "graph_dataset_database_handler": self.graph_dataset_database_handler,
+            "graph_database_subprocess_enabled": self.graph_database_subprocess_enabled,
         }
 
 

@@ -82,6 +82,11 @@ class config:
         graph_config.graph_database_provider = graph_database_provider
 
     @staticmethod
+    def set_graph_database_subprocess_enabled(graph_database_subprocess_enabled: bool):
+        graph_config = get_graph_config()
+        graph_config.graph_database_subprocess_enabled = graph_database_subprocess_enabled
+
+    @staticmethod
     def set_llm_provider(llm_provider: str):
         llm_config = get_llm_config()
         llm_config.llm_provider = llm_provider
@@ -145,6 +150,11 @@ class config:
     def set_vector_db_provider(vector_db_provider: str):
         vector_db_config = get_vectordb_config()
         vector_db_config.vector_db_provider = vector_db_provider
+
+    @staticmethod
+    def set_vector_db_subprocess_enabled(vector_db_subprocess_enabled: bool):
+        vector_db_config = get_vectordb_config()
+        vector_db_config.vector_db_subprocess_enabled = vector_db_subprocess_enabled
 
     @staticmethod
     def set_relational_db_config(config_dict: dict):
@@ -218,7 +228,9 @@ class config:
             "llm_api_key": "set_llm_api_key",
             "llm_endpoint": "set_llm_endpoint",
             "graph_database_provider": "set_graph_database_provider",
+            "graph_database_subprocess_enabled": "set_graph_database_subprocess_enabled",
             "vector_db_provider": "set_vector_db_provider",
+            "vector_db_subprocess_enabled": "set_vector_db_subprocess_enabled",
             "vector_db_url": "set_vector_db_url",
             "vector_db_key": "set_vector_db_key",
             "chunk_size": "set_chunk_size",
