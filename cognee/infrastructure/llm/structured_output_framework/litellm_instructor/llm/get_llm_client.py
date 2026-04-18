@@ -139,6 +139,7 @@ def get_llm_client(raise_api_key_error: bool = True):
             AnthropicAdapter,
         )
 
+        import os as _os
         return AnthropicAdapter(
             llm_config.llm_api_key,
             llm_config.llm_model,

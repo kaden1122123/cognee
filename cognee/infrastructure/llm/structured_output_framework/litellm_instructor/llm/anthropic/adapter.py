@@ -50,8 +50,13 @@ class AnthropicAdapter(GenericAPIAdapter):
         self.llm_args = llm_args
         self.instructor_mode = instructor_mode if instructor_mode else self.default_instructor_mode
 
+        http_params = {"api_key": self.api_key}
+        import os as _os
+        if _os.getenv("ANTHROPIC_BASE_URL"):
+            http_params["base_url"] = _os.getenv("ANTHROPIC_BASE_URL")
+
         self.aclient = instructor.patch(
-            create=anthropic.AsyncAnthropic(api_key=self.api_key).messages.create,
+            create=anthropic.AsyncAnthropic(**http_params).messages.create,
             mode=instructor.Mode(self.instructor_mode),
         )
 
