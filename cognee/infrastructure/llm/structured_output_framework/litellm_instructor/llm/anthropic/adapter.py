@@ -91,16 +91,21 @@ class AnthropicAdapter(GenericAPIAdapter):
         """
         merged_kwargs = {**self.llm_args, **kwargs}
         async with llm_rate_limiter_context_manager():
-            return await self.aclient(
+            resp = await self.aclient(
                 model=self.model,
                 max_retries=2,
                 messages=[
                     {
                         "role": "user",
-                        "content": f"""Use the given format to extract information
-                    from the following input: {text_input}. {system_prompt}""",
+                        "content": "Use the given format to extract information from the following input: " + text_input + ". " + system_prompt,
                     }
                 ],
                 response_model=response_model,
                 **merged_kwargs,
             )
+            # MiniMax returns ThinkingBlock with .thinking not .text
+            # instructor expects .text — strip thinking blocks from response
+            from anthropic.types.content_block import ThinkingBlock
+            if hasattr(resp, 'content') and hasattr(resp.content, '__iter__'):
+                resp.content = [b for b in resp.content if not isinstance(b, ThinkingBlock)]
+            return resp
